@@ -1,0 +1,6 @@
+framework module Pods_inShortsSample {
+  umbrella header "Pods-inShortsSample-umbrella.h"
+
+  export *
+  module * { export * }
+}
