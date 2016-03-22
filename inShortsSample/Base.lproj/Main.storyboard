@@ -59,6 +59,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" id="7Rn-gF-Ihj">
+                                <rect key="frame" x="0.0" y="409" width="320" height="1"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" id="R5o-Es-hfB" userLabel="Footer">
                                 <rect key="frame" x="0.0" y="418" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -130,6 +135,7 @@
                         <outlet property="moreatButton" destination="mbO-Fg-MC9" id="YgZ-kU-bGn"/>
                         <outlet property="shareButton" destination="pG1-ew-cLO" id="7Z2-sR-Kfg"/>
                         <outlet property="shrtAuthor" destination="weY-Oe-Dvo" id="Byg-LV-6kw"/>
+                        <outlet property="webvi" destination="7Rn-gF-Ihj" id="GYD-zT-be6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

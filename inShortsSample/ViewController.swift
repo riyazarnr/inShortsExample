@@ -25,7 +25,7 @@ import JLToast
 
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var containerView: UIView!
     
     @IBOutlet weak var contentView: UIView!
@@ -39,14 +39,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var footerView: UIView!
     
     
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-
+    
+    var isShown:Bool!
+    
+    @IBOutlet weak var webvi: UIView!
+    
     
     var wevVw:UIWebView!
-
+    
     
     override func viewWillAppear(animated: Bool) {
         self.getCyberData()
+        
+        self.webvi.hidden = true
+        self.isShown = false
+        
     }
     
     override func viewDidLoad() {
@@ -67,7 +74,7 @@ class ViewController: UIViewController {
         
         let redPGR = UIPanGestureRecognizer(target: self, action: "panFunc:")
         self.view.addGestureRecognizer(redPGR)
-
+        
         let gesture = UITapGestureRecognizer(target: self, action: "toggle:")
         view.userInteractionEnabled = true
         view.addGestureRecognizer(gesture)
@@ -77,7 +84,7 @@ class ViewController: UIViewController {
     func toggle(sender: UITapGestureRecognizer) {
         
         UIView.animateWithDuration(0.3, delay: 5, options: UIViewAnimationOptions.TransitionCurlUp, animations: { () -> Void in
-                        
+            
             self.navigationController?.setNavigationBarHidden(self.navigationController?.navigationBarHidden == false, animated: true)
             
             }) { (finished: Bool) -> Void in
@@ -91,7 +98,7 @@ class ViewController: UIViewController {
     override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
         return UIStatusBarAnimation.Slide
     }
-
+    
     
     func panFunc(gesture:UIPanGestureRecognizer) {
         
@@ -118,18 +125,18 @@ class ViewController: UIViewController {
                     self.view.transform = CGAffineTransformMakeScale(1, 1)
                 })
             }
-                else {
+            else {
                 
                 print("ended2")
-
-//                self.view.frame.origin.y = 0
+                
+                //                self.view.frame.origin.y = 0
             }
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
         }
     }
-
+    
     
     
     func changeUI(){
@@ -141,7 +148,7 @@ class ViewController: UIViewController {
         imageView.layer.cornerRadius = 0
         imageView.layer.borderWidth = 2.5
         imageView.layer.borderColor = UIColor.lightGrayColor().CGColor
-
+        
         
         // Left Menu Button
         let leftButton = UIButton()
@@ -152,7 +159,7 @@ class ViewController: UIViewController {
         let leftMenuButton = UIBarButtonItem()
         leftMenuButton.customView = leftButton
         self.navigationItem.leftBarButtonItem = leftMenuButton
-
+        
         // Right Menu Button
         let rightButton = UIButton()
         rightButton.setImage(UIImage(named: "refresh"), forState: .Normal)
@@ -174,6 +181,8 @@ class ViewController: UIViewController {
     func menuButtonTapped(){
         
         let secondViewController = self.storyboard!.instantiateViewControllerWithIdentifier("menuVC") as! MenuVC
+        
+        
         self.navigationController!.pushViewController(secondViewController, animated: true)
     }
     
@@ -182,42 +191,43 @@ class ViewController: UIViewController {
     @IBAction func moreAT(sender: AnyObject) {
         
         
-//        if(imageView.hidden == false){
-//            self.imageView.hidden = true
-//            self.contentView.hidden = true
-//        }
-//        
-//        else{
-//            
-//            self.imageView.hidden = false
-//            self.contentView.hidden = false
-//
-//        }
+        print("shown",isShown)
         
-        UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+        
+        if(isShown == false){
             
-            if(self.wevVw.alpha == 0){
-                self.wevVw.alpha = 1
+            self.webvi.hidden = false
+            
+            
+            UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.TransitionCurlUp, animations: { () -> Void in
+                
+                self.webvi.frame = CGRectMake(self.webvi.frame.origin.x, 0, self.webvi.frame.width, self.containerView.frame.height)
+                
+                
+                }) { (finished: Bool) -> Void in
             }
+            self.isShown = true
             
-            else{
-                self.wevVw.alpha = 0
-            }
-            
-            self.wevVw.frame = CGRectMake(self.containerView.frame.origin.x, 0, self.containerView.frame.width, self.containerView.frame.height)
-            
-            
-            }) { (finished: Bool) -> Void in
-                
-                
-//                if(self.wevVw.alpha == 0){
-//                    self.wevVw.alpha = 1
-//                }
-//
-//                self.wevVw.hidden = false
-                
-        }
+            print("shown",isShown)
 
+        }
+            
+        else{
+            
+            UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                
+                self.webvi.frame = CGRectMake(self.webvi.frame.origin.x, self.webvi.frame.origin.y, 0, 0)
+                }) { (finished: Bool) -> Void in
+            }
+
+            self.webvi.hidden = true
+            self.isShown = false
+            
+            print("shown else",isShown)
+
+        }
+        
+        
     }
     
     //MARK:Share
@@ -257,26 +267,26 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     func getCyberData(){
         
         Alamofire.request(.GET, "https://cyware.co/news/feed.php").responseJSON { (response) -> Void in
-         
+            
             print("response",response.data)
             
             do {
                 let anyObj = try NSJSONSerialization.JSONObjectWithData(response.data!, options: []) as! [String:AnyObject]
-
+                
                 print(anyObj)
-            
+                
             } catch let error as NSError {
                 print("json error: \(error.localizedDescription)")
             }
         }
         
-        }
-    
     }
+    
+}
 
 
 
